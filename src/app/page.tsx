@@ -1,5 +1,5 @@
 import Filters from "./Filter";
-import QuestionContainer from "./Question";
+import QuestionContainer from "./QuestionContainer";
 
 export default function App() {
   return (
