@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Question from "../Question";
 
-export default function QuizTaking({ swiperRef, setQuizResult }) {
+export default function QuizTaking({ swiperRef, setQuizResult, setQuizState }) {
   return (
     <Swiper
       onSwiper={(swiper) => (swiperRef.current = swiper)} // capture swiper instance
@@ -16,7 +16,8 @@ export default function QuizTaking({ swiperRef, setQuizResult }) {
       allowTouchMove={false} // 🚫 disable manual swiping
       navigation={false} // optional: hide arrows
       modules={[Pagination, Navigation]}
-      className="mySwiper basis-3/4 rounded-2xl bg-gradient-to-tl from-violet-600 to-purple-800 p-5"
+      // className="mySwiper basis-3/4 rounded-2xl bg-gradient-to-tl from-violet-600 to-purple-800 p-5"
+      className="mySwiper basis-3/4 rounded-2xl border border-white/20 bg-white/6 p-5 shadow-xl"
     >
       {tempData.results.map((question, index) => {
         return (
@@ -31,6 +32,7 @@ export default function QuizTaking({ swiperRef, setQuizResult }) {
                 } else {
                   console.log("Quiz finished!");
                   // Optionally show result screen or summary here
+                  setQuizState("finished");
                 }
               }}
             />

@@ -27,7 +27,8 @@ export default function QuizResult({
   else if (accuracy >= 50) feedback = "Good effort! 👍";
 
   return (
-    <section className="relative flex flex-1 flex-col items-center justify-center gap-6 bg-green-500 p-8 text-center text-white">
+    // <section className="relative flex flex-1 flex-col items-center justify-center gap-6 bg-green-500 p-8 text-center text-white">
+    <section className="relative flex flex-1 flex-col items-center justify-center gap-6 rounded-2xl border border-white/20 bg-white/6 p-5 p-8 text-center text-white shadow-xl">
       <h2 className="text-4xl font-bold text-violet-300">Quiz Results</h2>
 
       {/* 🎯 Circular Percentage */}

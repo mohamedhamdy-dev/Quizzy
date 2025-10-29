@@ -16,12 +16,20 @@ export default function QuestionContainer() {
     wrongAnswers: [],
   });
 
-  const [quizState, setQuizState] = useState("select");
+  const [quizState, setQuizState] = useState("ready");
 
   return (
-    // <QuizWelcome />
-    // <QuizTaking swiperRef={swiperRef} setQuizResult={setQuizResult} />
-    // <QuizReady />
-    <QuizResult />
+    <>
+      {quizState === "select" && <QuizWelcome />}
+      {quizState === "ready" && <QuizReady setQuizState={setQuizState} />}
+      {quizState === "inprogress" && (
+        <QuizTaking
+          swiperRef={swiperRef}
+          setQuizResult={setQuizResult}
+          setQuizState={setQuizState}
+        />
+      )}
+      {quizState === "finished" && <QuizResult />}
+    </>
   );
 }

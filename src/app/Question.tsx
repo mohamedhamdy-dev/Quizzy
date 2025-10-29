@@ -28,6 +28,7 @@ export default function Question({ question, onAnswered, setQuizResult }) {
         ],
       }));
     }
+
     // Move to next question
     onAnswered?.();
   };
