@@ -1,12 +1,17 @@
+import Image from "next/image";
+
 export default function QuizWelcome() {
   return (
-    <section className="flex flex-1 flex-col items-center justify-center gap-10 p-8 text-center text-white">
+    // <section className="flex flex-1 flex-col items-center justify-center gap-10 p-8 text-center text-white">
+    <section className="relative flex flex-1 flex-col items-center justify-center gap-8 overflow-hidden rounded-2xl border border-white/20 bg-white/6 p-8 text-center text-white shadow-xl">
       {/* 🌈 App Logo or Hero Image */}
-      <img
-        // src={quizHero}
+      {/* <Image
+        src="./asdf/asdfas"
         alt="Quizzy illustration"
         className="w-52 drop-shadow-xl"
-      />
+        width={96}
+        height={96}
+      /> */}
 
       {/* 🧠 App Name and Tagline */}
       <div className="space-y-4">
@@ -22,7 +27,7 @@ export default function QuizWelcome() {
 
       {/* ✨ Motivational Line */}
       <p className="text-sm text-violet-300/90 italic">
-        "Knowledge isn’t power until it’s tested." 💡
+        Knowledge isn’t power until it’s tested. 💡
       </p>
 
       {/* 🌌 Decorative assets (optional) */}

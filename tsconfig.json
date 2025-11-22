@@ -7,6 +7,8 @@
     // "strict": true,
     // "noEmit": true,
     "strict": false,
+    "noImplicitAny": false,
+
     "noEmit": false,
     "esModuleInterop": true,
     "module": "esnext",

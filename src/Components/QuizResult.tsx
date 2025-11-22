@@ -1,34 +1,52 @@
+"use client";
+
 import { useState } from "react";
 
-export default function QuizResult({
-  correctCount,
-  totalCount,
-  totalTime,
-  onRestart,
-  answers,
-}) {
+export default function QuizResult({ questions, totalTime = 2, setAppState }) {
+  const { correctAnswers, wrongAnswers } = questions;
+
   const [showModal, setShowModal] = useState(false);
 
-  // 🧮 Calculate accuracy
+  // 🔢 Counts
+  const correctCount = correctAnswers?.length;
+  const wrongCount = wrongAnswers?.length;
+  const totalCount = correctCount + wrongCount;
+
+  // 🧮 Accuracy %
   const accuracy = Math.round((correctCount / totalCount) * 100);
 
-  // 🌟 Star logic based on time (example thresholds)
+  // ⭐ Star rating based on time
   const maxStars = 3;
-  const fastThreshold = 60; // seconds for 3 stars
-  const mediumThreshold = 120; // seconds for 2 stars
+  const fastThreshold = 60; // 3 stars
+  const mediumThreshold = 120; // 2 stars
   let stars = 1;
+
   if (totalTime <= fastThreshold) stars = 3;
   else if (totalTime <= mediumThreshold) stars = 2;
 
-  // 🧠 Feedback message
+  // 💬 Feedback
   let feedback = "Keep practicing!";
   if (accuracy === 100) feedback = "Perfect score! 🎯";
   else if (accuracy >= 80) feedback = "Excellent work! 💪";
   else if (accuracy >= 50) feedback = "Good effort! 👍";
 
+  const answers = [
+    ...correctAnswers.map((item) => ({
+      question: item.q,
+      userAnswer: item.a,
+      correctAnswer: item.a, // same because it's correct
+      isCorrect: true,
+    })),
+    ...wrongAnswers.map((item) => ({
+      question: item.q,
+      userAnswer: item.a,
+      correctAnswer: item.correctAnswer, // must be included in wrongAnswers object
+      isCorrect: false,
+    })),
+  ];
+
   return (
-    // <section className="relative flex flex-1 flex-col items-center justify-center gap-6 bg-green-500 p-8 text-center text-white">
-    <section className="relative flex flex-1 flex-col items-center justify-center gap-6 rounded-2xl border border-white/20 bg-white/6 p-5 p-8 text-center text-white shadow-xl">
+    <section className="relative flex flex-1 flex-col items-center justify-center gap-6 rounded-2xl border border-white/20 bg-white/6 p-8 text-center text-white shadow-xl">
       <h2 className="text-4xl font-bold text-violet-300">Quiz Results</h2>
 
       {/* 🎯 Circular Percentage */}
@@ -59,27 +77,25 @@ export default function QuizResult({
         </span>
       </div>
 
-      {/* 🌟 Time performance */}
+      {/* ⭐ Star performance */}
       <div className="flex justify-center gap-2">
         {[...Array(maxStars)].map((_, i) => (
           <span
             key={i}
-            className={`text-3xl ${
-              i < stars ? "text-yellow-400" : "text-gray-500"
-            }`}
+            className={`text-3xl ${i < stars ? "text-yellow-400" : "text-gray-500"}`}
           >
             ★
           </span>
         ))}
       </div>
 
-      {/* ⏱ Time info */}
+      {/* ⏱ Time */}
       <p className="text-sm text-white/70">Time taken: {totalTime} seconds</p>
 
-      {/* 🧠 Feedback message */}
+      {/* 🧠 Feedback */}
       <p className="text-lg font-medium text-violet-200">{feedback}</p>
 
-      {/* 🔘 Buttons */}
+      {/* Buttons */}
       <div className="mt-4 flex gap-4">
         <button
           onClick={() => setShowModal(true)}
@@ -87,35 +103,39 @@ export default function QuizResult({
         >
           Review Answers
         </button>
+
         <button
-          onClick={onRestart}
+          onClick={() => setAppState("welcome")}
           className="rounded-xl bg-white/20 px-6 py-3 font-semibold shadow-md transition hover:bg-white/30"
         >
           Try Again
         </button>
       </div>
 
-      {/* 💬 Modal Window */}
+      {/* 💬 Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
           <div className="relative w-[90%] max-w-md rounded-2xl bg-white p-6 text-gray-800">
             <h3 className="mb-4 text-2xl font-bold text-violet-700">
               Answer Review
             </h3>
+
             <ul className="max-h-80 space-y-3 overflow-y-auto">
               {answers.map((item, i) => (
                 <li
                   key={i}
                   className={`rounded-lg border p-3 ${
-                    item.isCorrect
+                    item?.isCorrect
                       ? "border-green-400 bg-green-50"
                       : "border-red-400 bg-red-50"
                   }`}
                 >
                   <p className="font-medium">{item.question}</p>
+
                   <p className="text-sm text-gray-600">
                     Your answer: <span>{item.userAnswer}</span>
                   </p>
+
                   {!item.isCorrect && (
                     <p className="text-sm text-gray-600">
                       Correct answer:{" "}
@@ -137,12 +157,6 @@ export default function QuizResult({
           </div>
         </div>
       )}
-
-      {/* 🌌 Soft background */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 left-0 h-72 w-72 rounded-full bg-violet-700 opacity-30 blur-3xl"></div>
-        <div className="absolute right-0 bottom-0 h-64 w-64 rounded-full bg-purple-500 opacity-30 blur-3xl"></div>
-      </div>
     </section>
   );
 }

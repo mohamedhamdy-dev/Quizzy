@@ -40,9 +40,9 @@
 //   );
 // }
 
-export default function QuizReady({ setQuizState }) {
+export default function QuizReady({ setAppState }) {
   function handleStart() {
-    setQuizState("inprogress");
+    setAppState("inprogress");
   }
 
   return (
