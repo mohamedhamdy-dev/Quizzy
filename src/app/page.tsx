@@ -52,19 +52,20 @@ export default function App() {
     setAppState("ready");
   }
 
-  //////////////////// for Testing
-  // console.log( quizState);
-  console.log(questions);
-
   return (
-    <div className="flex h-screen w-full items-center justify-center">
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 -z-10 h-full w-full bg-[#1e1e1e] bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
-      </div>
+    <div className="flex h-screen w-full items-center justify-center bg-black">
+      {/* ⭐ Premium Gold Grid Background */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,_rgba(255,215,0,0.08),_transparent_60%)]"></div>
+      <div className="absolute inset-0 -z-20 bg-[linear-gradient(to_right,rgba(255,215,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,215,0,0.1)_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+
       <div className="z-10 container mx-auto flex gap-5">
         <Filters onSubmit={fetchQuiz} />
 
-        {isLoading && <p className="text-lg">Loading questions...</p>}
+        {isLoading && (
+          <div className="animate-pulse text-xl font-semibold text-yellow-400">
+            Fetching questions...
+          </div>
+        )}
         {isWelcome && <QuizWelcome />}
         {isSelecting && <QuizWelcome />}
         {isReady && <QuizReady setAppState={setAppState} />}
@@ -82,30 +83,3 @@ export default function App() {
     </div>
   );
 }
-
-//  for state management
-//  if i use context
-
-//  pros
-//   no prop drilling
-//   compact place management
-//   handling and optimizing the state piece will be better
-//   cleaner component only focus on UI and consume context
-
-// cons
-//   all components consume the context will re-render
-
-// if i use local state lifitng
-// pros
-
-// cons
-//   state change -> parent re-render -> whole app here re-render
-//   prop drilling
-
-//   if i used custom hook
-
-//     i will have cleaner component ui will be better
-
-// using local state if you are desingn the component
-// and there is logic only needed in that component
-// most like related to optionins ths comomponent

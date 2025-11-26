@@ -12,11 +12,6 @@ import { TriviaQuestion } from "@/app.types";
 export default function QuizTaking({ questions, setQuestions, setAppState }) {
   const swiperRef = useRef<SwiperType | null>(null);
 
-  /////////////////// for testing
-  console.log(questions);
-  console.log(questions.length);
-  console.log(swiperRef);
-
   return (
     <Swiper
       onSwiper={(swiper) => (swiperRef.current = swiper)} // capture swiper instance
@@ -29,7 +24,8 @@ export default function QuizTaking({ questions, setQuestions, setAppState }) {
     >
       {questions.questions.map((question, index) => {
         return (
-          <SwiperSlide className="p-5" key={question.question}>
+          // <SwiperSlide className="p-5" key={question.question}>
+          <SwiperSlide key={question.question}>
             <Question
               question={question}
               setQuestions={setQuestions}
