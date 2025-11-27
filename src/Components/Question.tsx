@@ -32,7 +32,7 @@ export default function Question({ question, onAnswered, setQuestions }) {
   }
 
   return (
-    <div className="flex h-full items-center justify-center p-3 sm:p-10">
+    <div className="flex h-full items-center justify-center p-3 pt-20 sm:p-10 sm:pt-20">
       <div className="w-full">
         <div className="mb-6 flex min-h-56 w-full items-center justify-center rounded-3xl border border-yellow-400/40 bg-gradient-to-br from-zinc-900 via-black to-zinc-900 p-3 text-center text-lg font-bold text-pretty text-yellow-200 shadow-[0_0_30px_rgba(255,215,0,0.15)] sm:mb-12 sm:p-10 sm:text-xl lg:text-2xl">
           {question.question}

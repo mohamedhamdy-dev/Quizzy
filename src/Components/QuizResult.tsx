@@ -39,13 +39,13 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
     ...wrongAnswers.map((item) => ({
       question: item.q,
       userAnswer: item.a,
-      correctAnswer: item.correctAnswer ?? "Unknown",
+      correctAnswer: item.c ?? "Unknown",
       isCorrect: false,
     })),
   ];
 
   return (
-    <section className="relative flex flex-1 flex-col items-center justify-center gap-6 rounded-2xl border border-yellow-500/20 bg-black/40 p-8 text-center text-yellow-50 shadow-[0_0_25px_rgba(255,215,0,0.25)] backdrop-blur-xl">
+    <section className="relative flex min-h-120 flex-1 flex-col items-center justify-center gap-6 rounded-2xl border border-yellow-500/20 bg-black/40 p-8 text-center text-yellow-50 shadow-[0_0_25px_rgba(255,215,0,0.25)] backdrop-blur-xl lg:min-h-140">
       <h2 className="text-4xl font-bold text-yellow-400 drop-shadow-sm">
         Quiz Results
       </h2>
@@ -139,7 +139,8 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
           <Modal.Trigger className="cursor-pointer rounded-xl bg-yellow-500 px-6 py-3 font-semibold text-black shadow-lg transition hover:bg-yellow-400">
             Review Answers
           </Modal.Trigger>
-          <Modal.Content>
+          {/* <Modal.Content className=""> */}
+          <Modal.Content className="max-w-[95%]">
             <div className="relative rounded-2xl border border-yellow-500/20 bg-zinc-900 p-6 text-yellow-100 shadow-[0_0_25px_rgba(255,215,0,0.2)]">
               <h3 className="mb-4 text-2xl font-bold text-yellow-400 drop-shadow">
                 Answer Review
