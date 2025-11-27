@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import Modal from "./Modal";
+import { motion } from "motion/react";
 
 export default function QuizResult({ questions, totalTime = 2, setAppState }) {
   const { correctAnswers = [], wrongAnswers = [] } = questions;
-
-  const [showModal, setShowModal] = useState(false);
 
   // Counts
   const correctCount = correctAnswers.length;
@@ -16,7 +15,7 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
     totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
 
   // ⭐ Stars
-  const maxStars = 3;
+  const maxStars = 5;
   const fastThreshold = 60; // 3 stars
   const mediumThreshold = 120; // 2 stars
 
@@ -63,19 +62,28 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
             strokeWidth="12"
             fill="none"
           />
-          {/* progress circle */}
-          <circle
+
+          {/* animated progress circle */}
+          <motion.circle
             cx="80"
             cy="80"
             r="70"
             stroke="#FACC15"
             strokeWidth="12"
             fill="none"
-            strokeDasharray={`${2 * Math.PI * 70}`}
-            strokeDashoffset={`${2 * Math.PI * 70 * (1 - accuracy / 100)}`}
             strokeLinecap="round"
+            strokeDasharray={2 * Math.PI * 70}
+            initial={{ strokeDashoffset: 2 * Math.PI * 70 }}
+            animate={{
+              strokeDashoffset: 2 * Math.PI * 70 * (1 - accuracy / 100),
+            }}
+            transition={{
+              duration: 1.8,
+              ease: "easeInOut",
+            }}
           />
         </svg>
+
         <span className="absolute text-3xl font-bold text-yellow-300 drop-shadow">
           {accuracy}%
         </span>
@@ -83,16 +91,38 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
 
       {/* ⭐ Stars */}
       <div className="flex justify-center gap-2">
-        {[...Array(maxStars)].map((_, i) => (
-          <span
-            key={i}
-            className={`text-4xl drop-shadow ${
-              i < stars ? "text-yellow-400" : "text-gray-600"
-            }`}
-          >
-            ★
-          </span>
-        ))}
+        {[...Array(maxStars)].map((_, i) => {
+          const isActive = i < stars;
+
+          return (
+            <motion.span
+              key={i}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{
+                duration: 0.5,
+                delay: 1 + i * 0.15, // starts AFTER circle animation finishes
+                type: "spring",
+                stiffness: 200,
+                damping: 10,
+              }}
+              className={`text-4xl drop-shadow ${
+                isActive ? "text-yellow-400" : "text-gray-600"
+              }`}
+            >
+              <svg
+                stroke="currentColor"
+                fill="currentColor"
+                strokeWidth="0"
+                viewBox="0 0 576 512"
+                xmlns="http://www.w3.org/2000/svg"
+                className="size-6"
+              >
+                <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
+              </svg>
+            </motion.span>
+          );
+        })}
       </div>
 
       <p className="text-sm text-yellow-200/70">
@@ -105,66 +135,53 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
 
       {/* Buttons */}
       <div className="mt-4 flex gap-4">
-        <button
-          onClick={() => setShowModal(true)}
-          className="rounded-xl bg-yellow-500 px-6 py-3 font-semibold text-black shadow-lg transition hover:bg-yellow-400"
-        >
-          Review Answers
-        </button>
+        <Modal>
+          <Modal.Trigger className="cursor-pointer rounded-xl bg-yellow-500 px-6 py-3 font-semibold text-black shadow-lg transition hover:bg-yellow-400">
+            Review Answers
+          </Modal.Trigger>
+          <Modal.Content>
+            <div className="relative rounded-2xl border border-yellow-500/20 bg-zinc-900 p-6 text-yellow-100 shadow-[0_0_25px_rgba(255,215,0,0.2)]">
+              <h3 className="mb-4 text-2xl font-bold text-yellow-400 drop-shadow">
+                Answer Review
+              </h3>
 
+              <ul className="max-h-80 space-y-3 overflow-y-auto pr-1">
+                {answers.map((item, i) => (
+                  <li
+                    key={i}
+                    className={`rounded-lg border p-3 ${
+                      item.isCorrect
+                        ? "border-green-500/30 bg-green-500/10"
+                        : "border-red-500/30 bg-red-500/10"
+                    }`}
+                  >
+                    <p className="font-medium">{item.question}</p>
+
+                    <p className="text-sm text-yellow-200/80">
+                      Your answer: <span>{item.userAnswer}</span>
+                    </p>
+
+                    {!item.isCorrect && (
+                      <p className="text-sm text-yellow-200/80">
+                        Correct answer:{" "}
+                        <span className="font-semibold text-yellow-300">
+                          {item.correctAnswer}
+                        </span>
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Modal.Content>
+        </Modal>
         <button
           onClick={() => setAppState("welcome")}
-          className="rounded-xl border border-yellow-500/40 bg-black/40 px-6 py-3 font-semibold text-yellow-300 shadow-lg transition hover:bg-black/60"
+          className="cursor-pointer rounded-xl border border-yellow-500/40 bg-black/40 px-6 py-3 font-semibold text-yellow-300 shadow-lg transition hover:bg-black/60"
         >
           Try Again
         </button>
       </div>
-
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-          <div className="relative w-[90%] max-w-md rounded-2xl border border-yellow-500/20 bg-zinc-900 p-6 text-yellow-100 shadow-[0_0_25px_rgba(255,215,0,0.2)]">
-            <h3 className="mb-4 text-2xl font-bold text-yellow-400 drop-shadow">
-              Answer Review
-            </h3>
-
-            <ul className="max-h-80 space-y-3 overflow-y-auto pr-1">
-              {answers.map((item, i) => (
-                <li
-                  key={i}
-                  className={`rounded-lg border p-3 ${
-                    item.isCorrect
-                      ? "border-green-500/30 bg-green-500/10"
-                      : "border-red-500/30 bg-red-500/10"
-                  }`}
-                >
-                  <p className="font-medium">{item.question}</p>
-
-                  <p className="text-sm text-yellow-200/80">
-                    Your answer: <span>{item.userAnswer}</span>
-                  </p>
-
-                  {!item.isCorrect && (
-                    <p className="text-sm text-yellow-200/80">
-                      Correct answer:{" "}
-                      <span className="font-semibold text-yellow-300">
-                        {item.correctAnswer}
-                      </span>
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ul>
-
-            <button
-              onClick={() => setShowModal(false)}
-              className="mt-5 w-full rounded-lg bg-yellow-500 py-2 font-semibold text-black hover:bg-yellow-400"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </section>
   );
 }

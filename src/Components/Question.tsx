@@ -32,20 +32,19 @@ export default function Question({ question, onAnswered, setQuestions }) {
   }
 
   return (
-    <div className="flex h-full flex-col items-center justify-center bg-gradient-to-br from-black via-neutral-900 to-zinc-800 p-10">
-      <div className="w-full max-w-3xl space-y-12">
-        {/* Question Card */}
-        <div className="rounded-3xl border border-yellow-400/40 bg-gradient-to-br from-zinc-900 via-black to-zinc-900 p-10 text-center text-3xl font-bold text-yellow-200 shadow-[0_0_30px_rgba(255,215,0,0.15)]">
+    <div className="flex h-full items-center justify-center p-3 sm:p-10">
+      <div className="w-full">
+        <div className="mb-6 flex min-h-56 w-full items-center justify-center rounded-3xl border border-yellow-400/40 bg-gradient-to-br from-zinc-900 via-black to-zinc-900 p-3 text-center text-lg font-bold text-pretty text-yellow-200 shadow-[0_0_30px_rgba(255,215,0,0.15)] sm:mb-12 sm:p-10 sm:text-xl lg:text-2xl">
           {question.question}
         </div>
 
         {/* Answer Buttons */}
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6">
           {shuffled.map((answer) => (
             <button
               key={answer}
               onClick={() => handleAnswerClick(answer)}
-              className="rounded-2xl border border-yellow-500/40 bg-gradient-to-br from-zinc-800 to-black px-6 py-4 text-lg font-semibold tracking-wide text-yellow-300 shadow-lg transition-all duration-300 hover:from-yellow-500 hover:to-yellow-600 hover:text-black hover:shadow-[0_0_25px_rgba(255,215,0,0.6)] active:scale-95"
+              className="cursor-pointer rounded-2xl border border-yellow-500/40 bg-gradient-to-br from-zinc-800 to-black px-6 py-4 font-semibold tracking-wide text-yellow-300 shadow-lg transition-all duration-300 hover:from-yellow-500 hover:to-yellow-600 hover:text-black hover:shadow-[0_0_25px_rgba(255,215,0,0.6)] active:scale-95 sm:text-lg"
             >
               {answer}
             </button>

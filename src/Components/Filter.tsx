@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import CustomSelect from "./CustomSelect";
+import { CustomNumberInput } from "./CustomNumberInput";
 
 export default function Filters({ onSubmit }) {
   const [amount, setAmount] = useState("10");
@@ -19,53 +21,29 @@ export default function Filters({ onSubmit }) {
       className="flex basis-1/4 flex-col gap-6 rounded-2xl border border-yellow-500/30 bg-black/60 p-6 text-yellow-200 shadow-[0_0_25px_rgba(255,215,0,0.15)] backdrop-blur-xl"
     >
       {/* Amount */}
-      <div>
-        <label
-          className="mb-2 block font-semibold text-yellow-300"
-          htmlFor="amount"
-        >
-          Amount:
-        </label>
-        <input
-          className="block w-full rounded-full border border-yellow-600/30 bg-zinc-900 p-3 px-5 text-yellow-200 shadow-inner transition outline-none focus:border-yellow-400 focus:shadow-[0_0_12px_rgba(255,215,0,0.4)]"
-          type="number"
-          id="amount"
-          min="1"
-          max="20"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-      </div>
+      <CustomNumberInput value={amount} onChange={setAmount} min={1} max={20} />
 
       {/* Category */}
-      <div>
-        <label
-          htmlFor="category"
-          className="mb-2 block font-semibold text-yellow-300"
-        >
-          Select Category:
-        </label>
-        <select
-          id="category"
-          className="block w-full cursor-pointer rounded-xl border border-yellow-600/30 bg-zinc-900 p-3 text-yellow-200 transition outline-none focus:border-yellow-400 focus:shadow-[0_0_12px_rgba(255,215,0,0.4)]"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value="any">All</option>
-          <option value="9">General Knowledge</option>
-          <option value="10">Entertainment: Books</option>
-          <option value="11">Entertainment: Film</option>
-          <option value="12">Entertainment: Music</option>
-          <option value="13">Entertainment: Musicals & Theatres</option>
-          <option value="14">Entertainment: Television</option>
-          <option value="15">Entertainment: Video Games</option>
-          <option value="17">Science & Nature</option>
-          <option value="18">Science: Computers</option>
-          <option value="19">Science: Mathematics</option>
-          <option value="21">Sports</option>
-          <option value="23">History</option>
-        </select>
-      </div>
+      <CustomSelect
+        label="Select Category:"
+        value={category}
+        onChange={setCategory}
+        options={[
+          { value: "any", label: "All" },
+          { value: "9", label: "General Knowledge" },
+          { value: "10", label: "Entertainment: Books" },
+          { value: "11", label: "Entertainment: Film" },
+          { value: "12", label: "Entertainment: Music" },
+          { value: "13", label: "Entertainment: Musicals & Theatres" },
+          { value: "14", label: "Entertainment: Television" },
+          { value: "15", label: "Entertainment: Video Games" },
+          { value: "17", label: "Science & Nature" },
+          { value: "18", label: "Science: Computers" },
+          { value: "19", label: "Science: Mathematics" },
+          { value: "21", label: "Sports" },
+          { value: "23", label: "History" },
+        ]}
+      />
 
       {/* Difficulty */}
       <div>

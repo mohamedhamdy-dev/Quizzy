@@ -7,7 +7,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Question from "./Question";
 import { useRef } from "react";
 import type { Swiper as SwiperType } from "swiper/types";
-import { TriviaQuestion } from "@/app.types";
 
 export default function QuizTaking({ questions, setQuestions, setAppState }) {
   const swiperRef = useRef<SwiperType | null>(null);
@@ -19,13 +18,12 @@ export default function QuizTaking({ questions, setQuestions, setAppState }) {
       allowTouchMove={false} // 🚫 disable manual swiping
       navigation={false} // optional: hide arrows
       modules={[Pagination, Navigation]}
-      // className="mySwiper basis-3/4 rounded-2xl bg-gradient-to-tl from-violet-600 to-purple-800 p-5"
-      className="mySwiper basis-3/4 rounded-2xl border border-white/20 bg-white/6 p-5 shadow-xl"
+      className="mySwiper basis-3/4 rounded-2xl border border-white/20 bg-gradient-to-br from-black via-neutral-900 to-zinc-800 p-5 shadow-xl"
     >
       {questions.questions.map((question, index) => {
         return (
           // <SwiperSlide className="p-5" key={question.question}>
-          <SwiperSlide key={question.question}>
+          <SwiperSlide key={question.question} className="">
             <Question
               question={question}
               setQuestions={setQuestions}
