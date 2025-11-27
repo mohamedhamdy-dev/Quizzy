@@ -8,11 +8,10 @@ export default function Filters({ onSubmit }) {
   const [amount, setAmount] = useState("10");
   const [category, setCategory] = useState("any");
   const [difficulty, setDifficulty] = useState("");
-  const [type, setType] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ amount, category, difficulty, type });
+    onSubmit({ amount, category, difficulty });
   };
 
   return (
@@ -72,46 +71,12 @@ export default function Filters({ onSubmit }) {
         </ul>
       </div>
 
-      {/* Type */}
-      <div>
-        <h3 className="mb-2 font-semibold text-yellow-300">Select Type:</h3>
-        <ul className="flex w-full rounded-xl border border-yellow-600/30 bg-zinc-900">
-          <li className="w-full">
-            <label className="flex cursor-pointer items-center gap-2 px-3 py-3 text-sm font-medium text-yellow-200">
-              <input
-                type="radio"
-                name="type"
-                value="multiple"
-                checked={type === "multiple"}
-                onChange={(e) => setType(e.target.value)}
-                className="h-4 w-4 cursor-pointer accent-yellow-400"
-              />
-              Multiple Choice
-            </label>
-          </li>
-
-          <li className="w-full border-l border-yellow-700/20">
-            <label className="flex cursor-pointer items-center gap-2 px-3 py-3 text-sm font-medium text-yellow-200">
-              <input
-                type="radio"
-                name="type"
-                value="boolean"
-                checked={type === "boolean"}
-                onChange={(e) => setType(e.target.value)}
-                className="h-4 w-4 cursor-pointer accent-yellow-400"
-              />
-              True / False
-            </label>
-          </li>
-        </ul>
-      </div>
-
       {/* Submit */}
       <button
         type="submit"
-        className="mt-4 rounded-full bg-gradient-to-r from-yellow-500 to-yellow-600 py-3 font-bold tracking-wide text-black transition hover:shadow-[0_0_20px_rgba(255,215,0,0.6)] active:scale-95"
+        className="cursor-pointer rounded-full bg-gradient-to-r from-yellow-500 to-yellow-600 px-5 py-3 text-lg font-bold tracking-wide text-black shadow-[0_0_20px_rgba(255,215,0,0.4)] transition-all duration-300 hover:from-yellow-400 hover:to-yellow-500 hover:shadow-[0_0_30px_rgba(255,215,0,0.7)] active:scale-95"
       >
-        Start Quiz
+        Submit
       </button>
     </form>
   );

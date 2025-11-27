@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Timer() {
-  // ------------------------------
-  // ⏱ TIMER STATE + INTERVAL
-  // ------------------------------
+export default function Timer({ timerRef }) {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
@@ -11,8 +8,9 @@ export default function Timer() {
       setSeconds((s) => s + 1);
     }, 1000);
 
+    timerRef.current = seconds;
     return () => clearInterval(interval); // cleanup
-  }, []);
+  }, [seconds, timerRef]);
 
   // Convert seconds → mm:ss
   const formatTime = () => {

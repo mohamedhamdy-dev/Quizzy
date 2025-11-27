@@ -13,6 +13,7 @@ export default function App() {
     questions: [],
     correctAnswers: [],
     wrongAnswers: [],
+    timeTaken: 0,
   };
 
   const [questions, setQuestions] = useState(initialQuestionsState);
@@ -35,13 +36,12 @@ export default function App() {
     if (settings.category !== "any")
       params.append("category", settings.category);
     if (settings.difficulty) params.append("difficulty", settings.difficulty);
-    if (settings.type) params.append("type", settings.type);
+    params.append("type", "multiple");
 
     const res = await fetch(`/api/quiz?${params.toString()}`);
     const data = await res.json();
 
     setQuestions((prev) => ({ ...prev, questions: fixQuizData(data.results) }));
-
     setTimeout(() => setAppState("ready"), 2000);
   }
 
@@ -58,7 +58,11 @@ export default function App() {
         />
       )}
       {isFinished && (
-        <QuizResult questions={questions} setAppState={setAppState} />
+        <QuizResult
+          questions={questions}
+          setAppState={setAppState}
+          setQuestions={setQuestions}
+        />
       )}
     </div>
   );

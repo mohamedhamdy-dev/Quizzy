@@ -3,7 +3,7 @@
 import Modal from "./Modal";
 import { motion } from "motion/react";
 
-export default function QuizResult({ questions, totalTime = 2, setAppState }) {
+export default function QuizResult({ questions, setQuestions, setAppState }) {
   const { correctAnswers = [], wrongAnswers = [] } = questions;
 
   // Counts
@@ -11,22 +11,36 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
   const wrongCount = wrongAnswers.length;
   const totalCount = correctCount + wrongCount;
 
+  // Accuracy score (0–100)
   const accuracy =
     totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
 
-  // ⭐ Stars
-  const maxStars = 5;
-  const fastThreshold = 60; // 3 stars
-  const mediumThreshold = 120; // 2 stars
+  // Speed score (0–100)
+  const timePerQ = totalCount > 0 ? questions.timeTaken / totalCount : 999;
 
-  const stars =
-    totalTime <= fastThreshold ? 3 : totalTime <= mediumThreshold ? 2 : 1;
+  let speedScore;
+  if (timePerQ <= 5) speedScore = 100;
+  else if (timePerQ <= 10) speedScore = 70;
+  else if (timePerQ <= 15) speedScore = 40;
+  else speedScore = 10;
 
-  // Feedback
+  // Final score (0–100)
+  const finalScore = Math.round(accuracy * 0.7 + speedScore * 0.3);
+
+  // Stars (0–5)
+  let stars = 0;
+  if (finalScore >= 90) stars = 5;
+  else if (finalScore >= 75) stars = 4;
+  else if (finalScore >= 55) stars = 3;
+  else if (finalScore >= 30) stars = 2;
+  else if (finalScore >= 1) stars = 1;
+
+  // Feedback message
   let feedback = "Keep practicing!";
-  if (accuracy === 100) feedback = "Perfect score! ⭐";
-  else if (accuracy >= 80) feedback = "Excellent work!";
-  else if (accuracy >= 50) feedback = "Good effort!";
+  if (finalScore >= 95) feedback = "Perfect job! ⭐";
+  else if (finalScore >= 85) feedback = "Outstanding performance!";
+  else if (finalScore >= 70) feedback = "Great work!";
+  else if (finalScore >= 50) feedback = "Good effort!";
 
   // Answer List
   const answers = [
@@ -91,7 +105,7 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
 
       {/* ⭐ Stars */}
       <div className="flex justify-center gap-2">
-        {[...Array(maxStars)].map((_, i) => {
+        {[...Array(5)].map((_, i) => {
           const isActive = i < stars;
 
           return (
@@ -126,7 +140,8 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
       </div>
 
       <p className="text-sm text-yellow-200/70">
-        Time taken: <span className="font-semibold">{totalTime}s</span>
+        Time taken:{" "}
+        <span className="font-semibold">{questions.timeTaken}s</span>
       </p>
 
       <p className="text-lg font-medium text-yellow-300 drop-shadow-sm">
@@ -136,7 +151,7 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
       {/* Buttons */}
       <div className="mt-4 flex gap-4">
         <Modal>
-          <Modal.Trigger className="cursor-pointer rounded-xl bg-yellow-500 px-6 py-3 font-semibold text-black shadow-lg transition hover:bg-yellow-400">
+          <Modal.Trigger className="cursor-pointer rounded-full bg-gradient-to-r from-yellow-500 to-yellow-600 px-5 py-2 text-lg font-bold tracking-wide text-black shadow-[0_0_20px_rgba(255,215,0,0.4)] transition-all duration-300 hover:from-yellow-400 hover:to-yellow-500 hover:shadow-[0_0_30px_rgba(255,215,0,0.7)] active:scale-95">
             Review Answers
           </Modal.Trigger>
           {/* <Modal.Content className=""> */}
@@ -177,8 +192,16 @@ export default function QuizResult({ questions, totalTime = 2, setAppState }) {
           </Modal.Content>
         </Modal>
         <button
-          onClick={() => setAppState("welcome")}
-          className="cursor-pointer rounded-xl border border-yellow-500/40 bg-black/40 px-6 py-3 font-semibold text-yellow-300 shadow-lg transition hover:bg-black/60"
+          onClick={() => {
+            setQuestions({
+              questions: [],
+              correctAnswers: [],
+              wrongAnswers: [],
+              timeTaken: 0,
+            });
+            setAppState("welcome");
+          }}
+          className="cursor-pointer rounded-xl border border-yellow-500/40 bg-black/40 px-6 py-3 font-semibold text-yellow-300 shadow-[0_0_20px_rgba(255,215,0,0.4)] transition-all duration-300 hover:bg-black/60 hover:from-yellow-400 hover:to-yellow-500 hover:shadow-[0_0_30px_rgba(255,215,0,0.7)] active:scale-95"
         >
           Try Again
         </button>

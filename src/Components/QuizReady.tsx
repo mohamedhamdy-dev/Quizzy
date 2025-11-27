@@ -21,7 +21,7 @@ export default function QuizReady({ setAppState }) {
         onClick={handleStart}
         className="cursor-pointer rounded-full bg-gradient-to-r from-yellow-500 to-yellow-600 px-5 py-2 text-lg font-bold tracking-wide text-black shadow-[0_0_20px_rgba(255,215,0,0.4)] transition-all duration-300 hover:from-yellow-400 hover:to-yellow-500 hover:shadow-[0_0_30px_rgba(255,215,0,0.7)] active:scale-95"
       >
-        Start Quiz 🚀
+        Start Quiz
       </button>
 
       {/* 🌌 Gold Decorative Glow Effects */}
