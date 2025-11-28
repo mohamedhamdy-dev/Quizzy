@@ -6,7 +6,7 @@
     "skipLibCheck": true,
     // "strict": true,
     // "noEmit": true,
-    "strict": false,
+    "strict": true,
     "noImplicitAny": false,
 
     "noEmit": false,

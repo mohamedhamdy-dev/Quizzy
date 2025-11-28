@@ -8,10 +8,21 @@ import Question from "./Question";
 import { useRef } from "react";
 import type { Swiper as SwiperType } from "swiper/types";
 import Timer from "./Timer";
+import { QuestionsStateType } from "@/app.types";
 
-export default function QuizTaking({ questions, setQuestions, setAppState }) {
+type QuizTakingProps = {
+  questions: QuestionsStateType;
+  setQuestions: React.Dispatch<React.SetStateAction<QuestionsStateType>>;
+  setAppState: React.Dispatch<string>;
+};
+
+export default function QuizTaking({
+  questions,
+  setQuestions,
+  setAppState,
+}: QuizTakingProps) {
   const swiperRef = useRef<SwiperType | null>(null);
-  const timerRef = useRef(null);
+  const timerRef = useRef<number>(0);
 
   return (
     <div className="relative">

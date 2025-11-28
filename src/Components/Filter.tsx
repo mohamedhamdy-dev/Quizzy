@@ -4,12 +4,20 @@ import { useState } from "react";
 import CustomSelect from "./CustomSelect";
 import { CustomNumberInput } from "./CustomNumberInput";
 
-export default function Filters({ onSubmit }) {
+type FiltersProps = {
+  onSubmit: (a: {
+    amount: string;
+    category: string;
+    difficulty: string;
+  }) => void;
+};
+
+export default function Filters({ onSubmit }: FiltersProps) {
   const [amount, setAmount] = useState("10");
   const [category, setCategory] = useState("any");
   const [difficulty, setDifficulty] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({ amount, category, difficulty });
   };

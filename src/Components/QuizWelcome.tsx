@@ -1,7 +1,15 @@
 import Filters from "./Filter";
 import Modal from "./Modal";
 
-export default function QuizWelcome({ onSubmit }) {
+type QuizWelcomeProps = {
+  onSubmit: (a: {
+    amount: string;
+    category: string;
+    difficulty: string;
+  }) => void;
+};
+
+export default function QuizWelcome({ onSubmit }: QuizWelcomeProps) {
   return (
     <section className="relative mx-auto flex min-h-120 flex-1 flex-col items-center justify-center gap-8 overflow-hidden rounded-2xl border border-yellow-500/30 bg-black/70 p-10 text-center text-yellow-100 shadow-[0_0_40px_rgba(255,215,0,0.15)] backdrop-blur-xl lg:min-h-140">
       {/* 🧠 App Name and Tagline */}

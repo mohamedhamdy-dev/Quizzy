@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 
-export default function Timer({ timerRef }) {
+type TimerProps = {
+  timerRef: { current: number };
+};
+
+export default function Timer({ timerRef }: TimerProps) {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {

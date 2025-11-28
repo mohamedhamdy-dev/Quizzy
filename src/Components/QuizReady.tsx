@@ -1,4 +1,8 @@
-export default function QuizReady({ setAppState }) {
+type QuizReadyProps = {
+  setAppState: React.Dispatch<string>;
+};
+
+export default function QuizReady({ setAppState }: QuizReadyProps) {
   function handleStart() {
     setAppState("inprogress");
   }

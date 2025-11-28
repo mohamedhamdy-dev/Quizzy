@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function CustomSelect({ value, onChange, options, label }) {
   const [open, setOpen] = useState(false);
-  const selectRef = useRef(null);
+  const selectRef = useRef<HTMLDivElement | null>(null);
 
   // Close when clicking outside
   useEffect(() => {

@@ -1,9 +1,20 @@
 "use client";
 
+import { QuestionsStateType } from "@/app.types";
 import Modal from "./Modal";
 import { motion } from "motion/react";
 
-export default function QuizResult({ questions, setQuestions, setAppState }) {
+type QuizResultProps = {
+  questions: QuestionsStateType;
+  setQuestions: React.Dispatch<QuestionsStateType>;
+  setAppState: React.Dispatch<string>;
+};
+
+export default function QuizResult({
+  questions,
+  setQuestions,
+  setAppState,
+}: QuizResultProps) {
   const { correctAnswers = [], wrongAnswers = [] } = questions;
 
   // Counts

@@ -7,9 +7,10 @@ import QuizTaking from "../Components/QuizTaking";
 import QuizWelcome from "../Components/QuizWelcome";
 import { fixQuizData } from "@/utils/helpers";
 import Loading from "@/Components/Loading";
+import { QuestionsStateType } from "@/app.types";
 
 export default function App() {
-  const initialQuestionsState = {
+  const initialQuestionsState: QuestionsStateType = {
     questions: [],
     correctAnswers: [],
     wrongAnswers: [],
@@ -27,7 +28,11 @@ export default function App() {
   const isFinished = appState === "finished";
   /////////////////////
 
-  async function fetchQuiz(settings) {
+  async function fetchQuiz(settings: {
+    amount: string;
+    category: string;
+    difficulty: string;
+  }) {
     setAppState("loading");
     setQuestions(initialQuestionsState);
     const params = new URLSearchParams();

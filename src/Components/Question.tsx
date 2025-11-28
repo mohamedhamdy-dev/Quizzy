@@ -1,11 +1,46 @@
+import { QuestionsStateType, TriviaQuestion } from "@/app.types";
 import { shuffleArray } from "../utils/helpers";
 
-export default function Question({ question, onAnswered, setQuestions }) {
+type QuestionProps = {
+  question: TriviaQuestion;
+  onAnswered: () => void;
+  setQuestions: React.Dispatch<React.SetStateAction<QuestionsStateType>>;
+};
+
+export default function Question({
+  question,
+  onAnswered,
+  setQuestions,
+}: QuestionProps) {
   const shuffled = shuffleArray([
     ...question.incorrect_answers,
     question.correct_answer,
   ]);
 
+  // function handleAnswerClick(answer: string) {
+  //   if (answer === question.correct_answer)
+  //     setQuestions((prev) => ({
+  //       ...prev,
+  //       correctAnswers: [
+  //         ...prev.correctAnswers,
+  //         { q: question.question, a: answer },
+  //       ],
+  //     }));
+  //   else
+  //     setQuestions((prev) => ({
+  //       ...prev,
+  //       wrongAnswers: [
+  //         ...prev.wrongAnswers,
+  //         {
+  //           q: question.question,
+  //           a: answer,
+  //           c: question.correct_answer,
+  //         },
+  //       ],
+  //     }));
+
+  //   onAnswered?.();
+  // }
   function handleAnswerClick(answer: string) {
     if (answer === question.correct_answer)
       setQuestions((prev) => ({

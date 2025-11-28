@@ -1,7 +1,19 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
-export function CustomNumberInput({ value, onChange, min = 1, max = 20 }) {
+type CustomNumberInputProps = {
+  value: string;
+  onChange: (s: string) => void;
+  min: number;
+  max: number;
+};
+
+export function CustomNumberInput({
+  value,
+  onChange,
+  min = 1,
+  max = 20,
+}: CustomNumberInputProps) {
   const num = Number(value);
   const isMin = num <= min;
   const isMax = num >= max;

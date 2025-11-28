@@ -1,20 +1,15 @@
-export interface TriviaQuestion {
-  category: string;
-  type: "multiple" | "boolean";
+export type TriviaQuestion = {
+  type: "multiple";
   difficulty: "easy" | "medium" | "hard";
+  category: string;
   question: string;
   correct_answer: string;
   incorrect_answers: string[];
-}
-
-type initialQuestionsState = {
-  questions: TriviaQuestion[];
-  correctAnswers: never[];
-  wrongAnswer: never[];
 };
 
-type QuizTakingProps = {
+export type QuestionsStateType = {
   questions: TriviaQuestion[];
-  setQuestions: (a: string) => void;
-  setAppState: (a: string) => void;
+  correctAnswers: { q: string; a: string }[];
+  wrongAnswers: { q: string; a: string; c: string }[];
+  timeTaken: number;
 };

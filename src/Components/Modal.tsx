@@ -1,10 +1,19 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-//eslint-disable-next-line
 import { motion, AnimatePresence } from "framer-motion";
 
+type valueType = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const initialContextValue = {
+  open: false,
+  setOpen: () => {},
+};
+
 // Create context for modal state
-const ModalContext = createContext();
+const ModalContext = createContext<valueType>(initialContextValue);
 
 export default function Modal({ children }) {
   const [open, setOpen] = useState(false);
@@ -27,7 +36,7 @@ Modal.Trigger = function Trigger({ children, className }) {
 
 Modal.Content = function Content({ children, className }) {
   const { open, setOpen } = useContext(ModalContext);
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   // Close on outside click + Escape key
   useEffect(() => {
