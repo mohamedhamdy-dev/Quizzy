@@ -17,30 +17,6 @@ export default function Question({
     question.correct_answer,
   ]);
 
-  // function handleAnswerClick(answer: string) {
-  //   if (answer === question.correct_answer)
-  //     setQuestions((prev) => ({
-  //       ...prev,
-  //       correctAnswers: [
-  //         ...prev.correctAnswers,
-  //         { q: question.question, a: answer },
-  //       ],
-  //     }));
-  //   else
-  //     setQuestions((prev) => ({
-  //       ...prev,
-  //       wrongAnswers: [
-  //         ...prev.wrongAnswers,
-  //         {
-  //           q: question.question,
-  //           a: answer,
-  //           c: question.correct_answer,
-  //         },
-  //       ],
-  //     }));
-
-  //   onAnswered?.();
-  // }
   function handleAnswerClick(answer: string) {
     if (answer === question.correct_answer)
       setQuestions((prev) => ({
