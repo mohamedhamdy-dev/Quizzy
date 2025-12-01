@@ -37,6 +37,12 @@ Modal.Trigger = function Trigger({ children, className }) {
 Modal.Content = function Content({ children, className }) {
   const { open, setOpen } = useContext(ModalContext);
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Run only on client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Close on outside click + Escape key
   useEffect(() => {
@@ -62,11 +68,13 @@ Modal.Content = function Content({ children, className }) {
     };
   }, [open, setOpen]);
 
+  // Prevent SSR errors
+  if (!mounted) return null;
+
   return createPortal(
     <AnimatePresence>
       {open && (
         <>
-          {/* Overlay */}
           <motion.div
             className="fixed inset-0 bg-black/50"
             initial={{ opacity: 0 }}
@@ -74,7 +82,6 @@ Modal.Content = function Content({ children, className }) {
             exit={{ opacity: 0 }}
           />
 
-          {/* Modal Box */}
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -83,7 +90,6 @@ Modal.Content = function Content({ children, className }) {
           >
             <div ref={modalRef} className={`relative ${className}`}>
               {children}
-              {/* Close button */}
               <button
                 onClick={() => setOpen(false)}
                 className="absolute top-3 right-3 cursor-pointer text-yellow-400 duration-300 hover:rotate-180"
