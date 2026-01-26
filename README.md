@@ -1,7 +1,6 @@
 # Quizzy
 
-Quizzy is a frontend web application built with Next.js, focused on delivering an interactive and engaging quiz-based user experience.  
-The project emphasizes smooth navigation, animated transitions, and a clean, modern interface.
+Quizzy is a clean and interactive quiz app built with React and Next.js, showcasing smooth UI, fast performance, and a fully client-side design.
 
 ---
 
